@@ -2,11 +2,31 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       favorites: [],
-	  item: "",
-	  description: {}
+      item: "",
+      description: {},
+      characters: [],
+      planets: [],
+      vehicles: [],
+      cb_url: "",
+      cf_url: "",
     },
     actions: {
       // Use getActions to call a function within a fuction
+      //fetchDescription gets the info from the api
+      fetchDescription: (e) => {
+        fetch(e)
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            setStore({
+              favorites: getStore().favorites,
+              item: getStore().item,
+              description: data.result.properties,
+            });
+          });
+      },
+      //setItem spits it out
       setItems: (e) => {
         setStore({
           // favorites: getStore().favorites,
@@ -14,21 +34,36 @@ const getState = ({ getStore, getActions, setStore }) => {
           description: getStore().description,
         });
       },
-      setItems: () => {
-        setStore({
-          //   favorites: getStore().favorites,
-          item: getStore().item,
-          description: e.result.properties,
-        });
+
+      getCharacters: () => {
+        const characters = getStore().characters;
+        return characters();
       },
-      exampleFunction: () => {
-        getActions().changeColor(0, "green");
+      getPlanets: () => {
+        const planets = getStore().planets;
+        return planets();
       },
-      loadSomeData: () => {
-        /**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+      getVehicles: () => {
+        const vehicles = getStore().vehicles;
+        return vehicles();
       },
+      addFavorite: (item) => {
+        const cb_url = getStore().cb_url;
+        let f = getStore().favorites;
+
+        fetch(cb_url + "/api/favorites", opts)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.msg == "ok") {
+              f.push(item);
+              setStore({ favorites: f });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
+
       changeColor: (index, color) => {
         //get the store
         const store = getStore();

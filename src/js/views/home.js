@@ -49,23 +49,28 @@ export const Home = () => {
   return (
     <div className="text-center mt-5">
       <div>
+        <h4>Characters</h4>
+      </div>
+      <div className="container d-flex">
         {characters.length
           ? characters.map((characters) => {
               return <Card character={characters} />;
             })
           : null}
       </div>
-      <div>
+      <div>Planets</div>
+      <div className="container d-flex">
         {planets.length
           ? planets.map((planets) => {
-              return <Card planets={characters} />;
+              return <Card planet={planets} />;
             })
           : null}
       </div>
-      <div>
-        {characters.length
-          ? characters.map((characters) => {
-              return <Card character={characters} />;
+      <div>Vehicles</div>
+      <div className="container d-flex">
+        {vehicles.length
+          ? vehicles.map((vehicles) => {
+              return <Card vehicle={vehicles} />;
             })
           : null}
       </div>
